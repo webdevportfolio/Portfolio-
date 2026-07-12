@@ -273,4 +273,47 @@ body {
         align-items: center;
         text-align: center;
     }
+    .reviews-section {
+    padding: 80px 20px;
+    background: #0b0b0b;
+    text-align: center;
+}
+
+.reviews-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    max-width: 1100px;
+    margin: 40px auto 0;
+}
+
+.review-card {
+    background: rgba(255, 255, 255, 0.03);
+    padding: 30px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    text-align: left;
+    transition: transform 0.3s ease;
+}
+
+.review-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.review-text {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #ccc;
+    font-style: italic;
+    margin-bottom: 20px;
+}
+
+.client-name {
+    font-size: 0.9rem;
+    color: #fff;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+    
 }
