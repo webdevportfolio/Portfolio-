@@ -315,5 +315,62 @@ body {
     letter-spacing: 1px;
     text-transform: uppercase;
 }
+
+.reviews-action {
+    margin-top: 60px;
+    padding-top: 40px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.reviews-action h3 {
+    font-size: 1.1rem;
+    color: #fff;
+    margin-bottom: 15px;
+    letter-spacing: 1px;
+}
+
+.inline-review-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    max-width: 500px;
+    margin: 0 auto;
+    text-align: left;
+}
+
+.inline-review-form input, 
+.inline-review-form textarea {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 12px;
+    border-radius: 6px;
+    color: #fff;
+    font-family: inherit;
+    font-size: 0.95rem;
+}
+
+.inline-review-form input:focus, 
+.inline-review-form textarea:focus {
+    outline: none;
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.review-submit-btn {
+    background: transparent;
+    color: #fff;
+    border: 1px solid #fff;
+    padding: 12px;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+}
+
+.review-submit-btn:hover {
+    background: #fff;
+    color: #000;
+}
+
     
 }
