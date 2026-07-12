@@ -99,20 +99,21 @@
         <p>PROVEN RESULTS FROM LIVE BUILDS</p>
     </div>
     
-    <div class="reviews-container">
-        <!-- Review 1: E-Commerce Storefront -->
-        <div class="review-card">
-            <p class="review-text">"The storefront asset layout is exceptionally clean and handles fluid mobile checkouts perfectly. Integrating the Paystack gateway handlers completely automated our transaction flow."</p>
-            <h4 class="client-name">— New Wave Streetwear brand</h4>
-        </div>
-        
-        <!-- Review 2: Business Platform -->
-        <div class="review-card">
-            <p class="review-text">"Super responsive and delivered the custom architecture exactly as specified. The hand-coded performance speed makes a massive difference for our local agency service mapping."</p>
-            <h4 class="client-name">— Tunde E., Creative Studio</h4>
-        </div>
+    <!-- JavaScript will dynamically inject reviews right here -->
+    <div class="reviews-container" id="dynamic-reviews"></div>
+
+    <!-- Inline Review Form -->
+    <div class="reviews-action">
+        <h3>Worked together recently?</h3>
+        <form id="review-form" class="inline-review-form">
+            <input type="text" id="review-name" placeholder="Your Name / Company" required>
+            <textarea id="review-content" placeholder="Your review..." rows="3" required></textarea>
+            <button type="submit" class="review-submit-btn">SUBMIT REVIEW</button>
+        </form>
     </div>
 </section>
+
+
     
 
     <!-- Footer -->
