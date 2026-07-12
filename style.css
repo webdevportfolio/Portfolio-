@@ -1,0 +1,276 @@
+/* Reset & Core Styling */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: #050505;
+    color: #ffffff;
+    overflow-x: hidden;
+}
+
+/* Minimal Navbar Layout */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2rem;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 100;
+    background: rgba(5, 5, 5, 0.8);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid #111;
+}
+
+.logo {
+    font-size: 1rem;
+    font-weight: 800;
+    letter-spacing: 2px;
+}
+
+.cta-nav-btn {
+    text-decoration: none;
+    color: #000;
+    background: #fff;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    padding: 8px 16px;
+    border-radius: 4px;
+    transition: background 0.3s ease;
+}
+
+.cta-nav-btn:hover {
+    background: #ccc;
+}
+
+/* Hero Container */
+.hero {
+    width: 100%;
+    min-height: 90vh;
+    display: flex;
+    align-items: center;
+    padding: 8rem 2rem 4rem 2rem;
+    background: radial-gradient(circle at top right, #111111 0%, #050505 100%);
+}
+
+.hero-content {
+    max-width: 700px;
+}
+
+.subtitle {
+    font-size: 0.75rem;
+    letter-spacing: 3px;
+    color: #888;
+    margin-bottom: 1.5rem;
+}
+
+.main-title {
+    font-size: 3.5rem;
+    font-weight: 900;
+    line-height: 1.1;
+    letter-spacing: -1px;
+    margin-bottom: 1.5rem;
+}
+
+.description {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #aaa;
+    margin-bottom: 2.5rem;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 15px;
+}
+
+.btn-primary, .btn-secondary {
+    text-decoration: none;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    padding: 16px 28px;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.btn-primary {
+    background: #fff;
+    color: #000;
+}
+
+.btn-primary:hover {
+    background: #ccc;
+}
+
+.btn-secondary {
+    background: transparent;
+    color: #fff;
+    border: 1px solid #222;
+}
+
+.btn-secondary:hover {
+    border-color: #fff;
+}
+
+/* Sections Shared Header */
+.projects-section, .services-section {
+    padding: 6rem 2rem;
+    border-top: 1px solid #111;
+}
+
+.section-header {
+    margin-bottom: 4rem;
+}
+
+.section-header h2 {
+    font-size: 1.5rem;
+    letter-spacing: 2px;
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+}
+
+.section-header p {
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+    color: #555;
+}
+
+/* Projects Grid System */
+.projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+.project-card {
+    background: #0c0c0c;
+    border: 1px solid #161616;
+    padding: 2.5rem;
+    border-radius: 6px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: border-color 0.3s ease;
+}
+
+.project-card:hover {
+    border-color: #333;
+}
+
+.project-tag {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: #888;
+    background: #161616;
+    padding: 4px 8px;
+    width: max-content;
+    border-radius: 4px;
+    margin-bottom: 1.5rem;
+}
+
+.project-card h3 {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.project-card p {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: #888;
+    margin-bottom: 2rem;
+}
+
+.project-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.tech-badge {
+    font-size: 0.7rem;
+    color: #aaa;
+    background: #111;
+    border: 1px solid #222;
+    padding: 4px 10px;
+    border-radius: 4px;
+}
+
+/* Services / Pricing Info Section */
+.pricing-container {
+    background: #0c0c0c;
+    border: 1px solid #161616;
+    padding: 2.5rem;
+    border-radius: 6px;
+    max-width: 800px;
+}
+
+.pricing-container p {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: #aaa;
+}
+
+.pricing-container strong {
+    color: #fff;
+}
+
+/* Footer Section */
+.main-footer {
+    display: flex;
+    justify-content: space-between;
+    padding: 3rem 2rem;
+    border-top: 1px solid #111;
+    font-size: 0.7rem;
+    letter-spacing: 1px;
+    color: #444;
+}
+
+/* Responsive Breakpoints */
+@media (max-width: 768px) {
+    .navbar {
+        padding: 1.5rem;
+    }
+    
+    .hero {
+        padding: 8rem 1.5rem 4rem 1.5rem;
+    }
+    
+    .main-title {
+        font-size: 2.3rem;
+    }
+    
+    .hero-buttons {
+        flex-direction: column;
+    }
+    
+    .btn-primary, .btn-secondary {
+        text-align: center;
+        padding: 14px;
+    }
+    
+    .projects-section, .services-section {
+        padding: 4rem 1.5rem;
+    }
+    
+    .project-card {
+        padding: 1.5rem;
+    }
+    
+    .main-footer {
+        flex-direction: column;
+        gap: 10px;
+        align-items: center;
+        text-align: center;
+    }
+}
