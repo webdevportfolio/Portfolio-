@@ -69,11 +69,15 @@ document.getElementById("review-form")?.addEventListener("submit", async functio
     submitBtn.disabled = true;
 
     try {
-        const response = await fetch(SCRIPT_URL, {
+        // We use text/plain to bypass the browser's CORS pre-flight checks, 
+        // allowing e.postData.contents to parse the JSON string perfectly.
+        await fetch(SCRIPT_URL, {
             method: "POST",
-            mode: "no-cors", // Required for Google Scripts cross-origin execution
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(payload)
+            headers: {
+                "Content-Type": "text/plain;charset=utf-8"
+            },
+            body: JSON.stringify(payload),
+            redirect: "follow"
         });
 
         // Clear the form fields immediately
@@ -91,6 +95,3 @@ document.getElementById("review-form")?.addEventListener("submit", async functio
         submitBtn.disabled = false;
     }
 });
-
-// Run it immediately on page load
-document.addEventListener("DOMContentLoaded", loadReviews);
