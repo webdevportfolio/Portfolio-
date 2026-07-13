@@ -22,15 +22,19 @@ document.addEventListener("DOMContentLoaded", () => {
 // Your deployment URL
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyOAT0XMt8mSLp42azMl4yllY0Jr-GyEMQeLxtUNdrlpJy-Q60r5dSX09lgWWo-Ld5L/exec";
 
-// 1. Fetch and display reviews instantly when page loads
+// 1. Fetch and display reviews instantly when page loads (with Cache-Buster)
 async function loadReviews() {
     const container = document.getElementById("dynamic-reviews");
     if (!container) return;
     
     try {
-        const response = await fetch(SCRIPT_URL);
+        // Adding a timestamp (?t=...) forces the browser to fetch FRESH data from the sheet every time
+        const freshUrl = `${SCRIPT_URL}?t=${Date.now()}`;
+        
+        const response = await fetch(freshUrl);
         const reviews = await response.json();
         
+        // Clear old placeholders
         container.innerHTML = "";
         
         if (reviews.length === 0) {
@@ -38,6 +42,7 @@ async function loadReviews() {
             return;
         }
 
+        // Inject data from Google Sheet
         reviews.forEach(item => {
             const card = document.createElement("div");
             card.className = "review-card";
@@ -51,6 +56,7 @@ async function loadReviews() {
         console.error("Error loading reviews:", err);
     }
 }
+
 
 // 2. Handle instant review submissions using text stream routing
 document.getElementById("review-form")?.addEventListener("submit", async function(e) {
