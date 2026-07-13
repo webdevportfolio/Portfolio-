@@ -53,7 +53,7 @@ async function loadReviews() {
     }
 }
 
-// 2. Submit reviews using pure JSON (Matches your JSON.parse Apps Script perfectly)
+// 2. Submit reviews and instantly update the screen
 document.getElementById("review-form")?.addEventListener("submit", async function(e) {
     e.preventDefault();
     
@@ -61,16 +61,41 @@ document.getElementById("review-form")?.addEventListener("submit", async functio
     const contentInput = document.getElementById("review-content");
     const submitBtn = this.querySelector(".review-submit-btn");
     
+    const submittedName = nameInput.value;
+    const submittedReview = contentInput.value;
+    
+    // Package data for Google Sheet
     const payload = {
-        name: nameInput.value,
-        review: contentInput.value
+        name: submittedName,
+        review: submittedReview
     };
     
     submitBtn.innerText = "SUBMITTING...";
     submitBtn.disabled = true;
 
+    // --- INSTANT UI UPDATE TRICK ---
+    const container = document.getElementById("dynamic-reviews");
+    if (container) {
+        // If "No reviews yet" placeholder is there, clear it
+        if (container.innerHTML.includes("No reviews yet")) {
+            container.innerHTML = "";
+        }
+        
+        // Create the card instantly
+        const tempCard = document.createElement("div");
+        tempCard.className = "review-card";
+        tempCard.style.opacity = "0.7"; // Make it slightly translucent while saving
+        tempCard.innerHTML = `
+            <p class="review-text">"${submittedReview}"</p>
+            <h4 class="client-name">— ${submittedName} <span style="font-size:10px; color:#999; font-weight:normal;">(Just now)</span></h4>
+        `;
+        
+        // Insert it at the absolute top of the reviews list
+        container.insertBefore(tempCard, container.firstChild);
+    }
+    // --------------------------------
+
     try {
-        // mode: "no-cors" lets us send the JSON string safely without browser CORS blocks
         await fetch(SCRIPT_URL, {
             method: "POST",
             mode: "no-cors", 
@@ -86,8 +111,11 @@ document.getElementById("review-form")?.addEventListener("submit", async functio
         submitBtn.innerText = "SUBMIT REVIEW";
         submitBtn.disabled = false;
         
-        // Refresh the list automatically on the screen
-        setTimeout(loadReviews, 1500); 
+        // Smoothly bring the card to full brightness once Google has it
+        const newCard = container?.firstChild;
+        if (newCard) {
+            newCard.style.opacity = "1";
+        }
         
     } catch (err) {
         console.error("Submission failed:", err);
@@ -95,6 +123,7 @@ document.getElementById("review-form")?.addEventListener("submit", async functio
         submitBtn.disabled = false;
     }
 });
+
 
 // Run loadReviews automatically when the window loads
 document.addEventListener("DOMContentLoaded", loadReviews);
