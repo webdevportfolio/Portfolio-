@@ -19,8 +19,8 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 });
 
-// Your deployment URL
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyOAT0XMt8mSLp42azMl4yllY0Jr-GyEMQeLxtUNdrlpJy-Q60r5dSX09lgWWo-Ld5L/exec";
+// Your Google Apps Script Web App URL
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzvXtZmtU9gTEIOeDBK8pN3sS21vNitYBtxO7Xn4PFxuSjAvKHHS4k1eEoiw-5FET5e/exec";
 
 // 1. Fetch and display reviews instantly when page loads (with Cache-Buster)
 async function loadReviews() {
@@ -28,13 +28,10 @@ async function loadReviews() {
     if (!container) return;
     
     try {
-        // Adding a timestamp (?t=...) forces the browser to fetch FRESH data from the sheet every time
         const freshUrl = `${SCRIPT_URL}?t=${Date.now()}`;
-        
         const response = await fetch(freshUrl);
         const reviews = await response.json();
         
-        // Clear old placeholders
         container.innerHTML = "";
         
         if (reviews.length === 0) {
@@ -42,7 +39,6 @@ async function loadReviews() {
             return;
         }
 
-        // Inject data from Google Sheet
         reviews.forEach(item => {
             const card = document.createElement("div");
             card.className = "review-card";
@@ -57,8 +53,7 @@ async function loadReviews() {
     }
 }
 
-
-// 2. Handle instant review submissions using text stream routing
+// 2. Submit reviews using URLSearchParams (Direct compatibility with Google's e.parameter)
 document.getElementById("review-form")?.addEventListener("submit", async function(e) {
     e.preventDefault();
     
@@ -66,32 +61,31 @@ document.getElementById("review-form")?.addEventListener("submit", async functio
     const contentInput = document.getElementById("review-content");
     const submitBtn = this.querySelector(".review-submit-btn");
     
-    const payload = {
-        name: nameInput.value,
-        review: contentInput.value
-    };
+    // Package data as url-encoded parameters (bypasses CORS blocks)
+    const params = new URLSearchParams();
+    params.append("name", nameInput.value);
+    params.append("review", contentInput.value);
     
     submitBtn.innerText = "SUBMITTING...";
     submitBtn.disabled = true;
 
     try {
-        // mode: "no-cors" forces a simple request, hiding custom headers from strict pre-flight blocks
         await fetch(SCRIPT_URL, {
             method: "POST",
-            mode: "no-cors",
+            mode: "no-cors", 
             headers: {
-                "Content-Type": "text/plain"
+                "Content-Type": "application/x-www-form-urlencoded"
             },
-            body: JSON.stringify(payload)
+            body: params.toString()
         });
 
-        // Clear the form fields immediately
+        // Clear input fields immediately
         nameInput.value = "";
         contentInput.value = "";
         submitBtn.innerText = "SUBMIT REVIEW";
         submitBtn.disabled = false;
         
-        // Refresh the review wall live on screen after a short delay
+        // Refresh the list automatically on the screen
         setTimeout(loadReviews, 1500); 
         
     } catch (err) {
@@ -101,5 +95,5 @@ document.getElementById("review-form")?.addEventListener("submit", async functio
     }
 });
 
-// Run it immediately on page load
+// Run loadReviews automatically when the window loads
 document.addEventListener("DOMContentLoaded", loadReviews);
