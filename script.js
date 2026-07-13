@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 });
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyMXoV6pTluR39IaRLqcSngFZeQI4QX939zNvde8MmUYtWipQIrZCPxQnkLLhvoY8nM/exec";
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwGmGEtrCynEIIrsZvxHjNNP_1Zeah3JB2qZGJUzOHAmzEb1XVGA67P1KHp4PUtm_5o/exec";
 
 // 1. Fetch and display reviews instantly when page loads
 async function loadReviews() {
