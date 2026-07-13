@@ -53,7 +53,7 @@ async function loadReviews() {
     }
 }
 
-// 2. Submit reviews using URLSearchParams (Direct compatibility with Google's e.parameter)
+// 2. Submit reviews using pure JSON (Matches your JSON.parse Apps Script perfectly)
 document.getElementById("review-form")?.addEventListener("submit", async function(e) {
     e.preventDefault();
     
@@ -61,22 +61,23 @@ document.getElementById("review-form")?.addEventListener("submit", async functio
     const contentInput = document.getElementById("review-content");
     const submitBtn = this.querySelector(".review-submit-btn");
     
-    // Package data as url-encoded parameters (bypasses CORS blocks)
-    const params = new URLSearchParams();
-    params.append("name", nameInput.value);
-    params.append("review", contentInput.value);
+    const payload = {
+        name: nameInput.value,
+        review: contentInput.value
+    };
     
     submitBtn.innerText = "SUBMITTING...";
     submitBtn.disabled = true;
 
     try {
+        // mode: "no-cors" lets us send the JSON string safely without browser CORS blocks
         await fetch(SCRIPT_URL, {
             method: "POST",
             mode: "no-cors", 
             headers: {
-                "Content-Type": "application/x-www-form-urlencoded"
+                "Content-Type": "text/plain"
             },
-            body: params.toString()
+            body: JSON.stringify(payload)
         });
 
         // Clear input fields immediately
