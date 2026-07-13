@@ -18,7 +18,9 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 });
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzvXtZmtU9gTEIOeDBK8pN3sS21vNitYBtxO7Xn4PFxuSjAvKHHS4k1eEoiw-5FET5e/exec";
+
+// Your deployment URL
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyOAT0XMt8mSLp42azMl4yllY0Jr-GyEMQeLxtUNdrlpJy-Q60r5dSX09lgWWo-Ld5L/exec";
 
 // 1. Fetch and display reviews instantly when page loads
 async function loadReviews() {
@@ -29,7 +31,6 @@ async function loadReviews() {
         const response = await fetch(SCRIPT_URL);
         const reviews = await response.json();
         
-        // Clear old placeholders
         container.innerHTML = "";
         
         if (reviews.length === 0) {
@@ -37,7 +38,6 @@ async function loadReviews() {
             return;
         }
 
-        // Inject data from Google Sheet
         reviews.forEach(item => {
             const card = document.createElement("div");
             card.className = "review-card";
@@ -52,7 +52,7 @@ async function loadReviews() {
     }
 }
 
-// 2. Handle instant review submissions
+// 2. Handle instant review submissions using text stream routing
 document.getElementById("review-form")?.addEventListener("submit", async function(e) {
     e.preventDefault();
     
@@ -69,15 +69,14 @@ document.getElementById("review-form")?.addEventListener("submit", async functio
     submitBtn.disabled = true;
 
     try {
-        // We use text/plain to bypass the browser's CORS pre-flight checks, 
-        // allowing e.postData.contents to parse the JSON string perfectly.
+        // mode: "no-cors" forces a simple request, hiding custom headers from strict pre-flight blocks
         await fetch(SCRIPT_URL, {
             method: "POST",
+            mode: "no-cors",
             headers: {
-                "Content-Type": "text/plain;charset=utf-8"
+                "Content-Type": "text/plain"
             },
-            body: JSON.stringify(payload),
-            redirect: "follow"
+            body: JSON.stringify(payload)
         });
 
         // Clear the form fields immediately
@@ -86,7 +85,7 @@ document.getElementById("review-form")?.addEventListener("submit", async functio
         submitBtn.innerText = "SUBMIT REVIEW";
         submitBtn.disabled = false;
         
-        // Refresh the review wall live on screen
+        // Refresh the review wall live on screen after a short delay
         setTimeout(loadReviews, 1500); 
         
     } catch (err) {
@@ -95,3 +94,6 @@ document.getElementById("review-form")?.addEventListener("submit", async functio
         submitBtn.disabled = false;
     }
 });
+
+// Run it immediately on page load
+document.addEventListener("DOMContentLoaded", loadReviews);
