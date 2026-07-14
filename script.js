@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // Your Google Apps Script Web App URL
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzvXtZmtU9gTEIOeDBK8pN3sS21vNitYBtxO7Xn4PFxuSjAvKHHS4k1eEoiw-5FET5e/exec";
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyOAT0XMt8mSLp42azMl4yllY0Jr-GyEMQeLxtUNdrlpJy-Q60r5dSX09lgWWo-Ld5L/exec";
 
 // 1. Fetch and display reviews instantly when page loads (with Cache-Buster)
 async function loadReviews() {
