@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // Your Google Apps Script Web App URL
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyOAT0XMt8mSLp42azMl4yllY0Jr-GyEMQeLxtUNdrlpJy-Q60r5dSX09lgWWo-Ld5L/exec";
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzvXtZmtU9gTEIOeDBK8pN3sS21vNitYBtxO7Xn4PFxuSjAvKHHS4k1eEoiw-5FET5e/exec";
 
 // 1. Fetch and display reviews instantly when page loads (with Cache-Buster)
 async function loadReviews() {
@@ -53,7 +53,7 @@ async function loadReviews() {
     }
 }
 
-// 2. Submit reviews (Guarantees Google saves it FIRST, then shows it instantly)
+// 2. Submit reviews
 document.getElementById("review-form")?.addEventListener("submit", async function(e) {
     e.preventDefault();
     
@@ -64,7 +64,9 @@ document.getElementById("review-form")?.addEventListener("submit", async functio
     const submittedName = nameInput.value;
     const submittedReview = contentInput.value;
     
+    // Explicitly sending the correct Sheet ID in the payload to bypass Apps Script hardcoding
     const payload = {
+        sheetId: "14DtygzLcwGVk_LcTUxA9ff4ZPDoJVD5JjpMeqnjJ43s",
         name: submittedName,
         review: submittedReview
     };
@@ -73,7 +75,6 @@ document.getElementById("review-form")?.addEventListener("submit", async functio
     submitBtn.disabled = true;
 
     try {
-        // First: Send data to Google Sheet (the exact fetch that worked before)
         await fetch(SCRIPT_URL, {
             method: "POST",
             mode: "no-cors", 
@@ -83,13 +84,13 @@ document.getElementById("review-form")?.addEventListener("submit", async functio
             body: JSON.stringify(payload)
         });
 
-        // Second: Clear form inputs
+        // Clear form inputs
         nameInput.value = "";
         contentInput.value = "";
         submitBtn.innerText = "SUBMIT REVIEW";
         submitBtn.disabled = false;
 
-        // Third: Show the review card on screen instantly so they don't have to reload
+        // Show the review card on screen instantly
         const container = document.getElementById("dynamic-reviews");
         if (container) {
             if (container.innerHTML.includes("No reviews yet")) {
@@ -102,7 +103,6 @@ document.getElementById("review-form")?.addEventListener("submit", async functio
                 <p class="review-text">"${submittedReview}"</p>
                 <h4 class="client-name">— ${submittedName}</h4>
             `;
-            // Slide it directly to the top
             container.insertBefore(newCard, container.firstChild);
         }
         
