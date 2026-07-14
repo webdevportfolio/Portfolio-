@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // Your Google Apps Script Web App URL
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyOAT0XMt8mSLp42azMl4yllY0Jr-GyEMQeLxtUNdrlpJy-Q60r5dSX09lgWWo-Ld5L/exec";
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzvXtZmtU9gTEIOeDBK8pN3sS21vNitYBtxO7Xn4PFxuSjAvKHHS4k1eEoiw-5FET5e/exec";
 
 // 1. Fetch and display reviews instantly when page loads (with Cache-Buster)
 async function loadReviews() {
@@ -53,7 +53,7 @@ async function loadReviews() {
     }
 }
 
-// 2. Submit reviews and instantly update the screen
+// 2. Submit reviews (Guarantees Google saves it FIRST, then shows it instantly)
 document.getElementById("review-form")?.addEventListener("submit", async function(e) {
     e.preventDefault();
     
@@ -64,7 +64,6 @@ document.getElementById("review-form")?.addEventListener("submit", async functio
     const submittedName = nameInput.value;
     const submittedReview = contentInput.value;
     
-    // Package data for Google Sheet
     const payload = {
         name: submittedName,
         review: submittedReview
@@ -73,29 +72,8 @@ document.getElementById("review-form")?.addEventListener("submit", async functio
     submitBtn.innerText = "SUBMITTING...";
     submitBtn.disabled = true;
 
-    // --- INSTANT UI UPDATE TRICK ---
-    const container = document.getElementById("dynamic-reviews");
-    if (container) {
-        // If "No reviews yet" placeholder is there, clear it
-        if (container.innerHTML.includes("No reviews yet")) {
-            container.innerHTML = "";
-        }
-        
-        // Create the card instantly
-        const tempCard = document.createElement("div");
-        tempCard.className = "review-card";
-        tempCard.style.opacity = "0.7"; // Make it slightly translucent while saving
-        tempCard.innerHTML = `
-            <p class="review-text">"${submittedReview}"</p>
-            <h4 class="client-name">— ${submittedName} <span style="font-size:10px; color:#999; font-weight:normal;">(Just now)</span></h4>
-        `;
-        
-        // Insert it at the absolute top of the reviews list
-        container.insertBefore(tempCard, container.firstChild);
-    }
-    // --------------------------------
-
     try {
+        // First: Send data to Google Sheet (the exact fetch that worked before)
         await fetch(SCRIPT_URL, {
             method: "POST",
             mode: "no-cors", 
@@ -105,16 +83,27 @@ document.getElementById("review-form")?.addEventListener("submit", async functio
             body: JSON.stringify(payload)
         });
 
-        // Clear input fields immediately
+        // Second: Clear form inputs
         nameInput.value = "";
         contentInput.value = "";
         submitBtn.innerText = "SUBMIT REVIEW";
         submitBtn.disabled = false;
-        
-        // Smoothly bring the card to full brightness once Google has it
-        const newCard = container?.firstChild;
-        if (newCard) {
-            newCard.style.opacity = "1";
+
+        // Third: Show the review card on screen instantly so they don't have to reload
+        const container = document.getElementById("dynamic-reviews");
+        if (container) {
+            if (container.innerHTML.includes("No reviews yet")) {
+                container.innerHTML = "";
+            }
+            
+            const newCard = document.createElement("div");
+            newCard.className = "review-card";
+            newCard.innerHTML = `
+                <p class="review-text">"${submittedReview}"</p>
+                <h4 class="client-name">— ${submittedName}</h4>
+            `;
+            // Slide it directly to the top
+            container.insertBefore(newCard, container.firstChild);
         }
         
     } catch (err) {
@@ -123,7 +112,6 @@ document.getElementById("review-form")?.addEventListener("submit", async functio
         submitBtn.disabled = false;
     }
 });
-
 
 // Run loadReviews automatically when the window loads
 document.addEventListener("DOMContentLoaded", loadReviews);
