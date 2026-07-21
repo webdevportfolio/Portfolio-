@@ -96,7 +96,19 @@ document.getElementById("review-form")?.addEventListener("submit", async functio
             if (container.innerHTML.includes("No reviews yet")) {
                 container.innerHTML = "";
             }
-            
+            function startProjectWhatsApp() {
+  const phoneNumber = "234XXXXXXXXXX"; // Replace with your phone number (e.g. 2348012345678)
+  
+  // Custom template message
+  const templateMessage = "Hey MRWEBDEV! 👋 I checked out your portfolio and I'd like to start a web design project for my brand.";
+
+  // Encodes spaces and punctuation into valid URL format
+  const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(templateMessage)}`;
+
+  // Opens WhatsApp in a new tab
+  window.open(whatsappUrl, '_blank');
+}
+
             const newCard = document.createElement("div");
             newCard.className = "review-card";
             newCard.innerHTML = `
