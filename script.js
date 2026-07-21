@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", () => {
 // 2. WhatsApp Direct Redirect Function
 function startProjectWhatsApp() {
     const phoneNumber = "2348029913798"; 
-    const templateMessage = "Hey MRWEBDEV! 👋 I checked out your portfolio and I'd like to start a web design project for my brand.";
+    const templateMessage = "Hey MRWEBDEV! 👋 I checked out your portfolio and I'd like to start a web design project.";
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(templateMessage)}`;
     
     window.open(whatsappUrl, '_blank');
