@@ -92,7 +92,7 @@ body {
     gap: 15px;
 }
 
-.btn-primary, .btn-secondary {
+..btn-primary, .btn-secondary {
     text-decoration: none;
     font-size: 0.8rem;
     font-weight: 700;
@@ -100,7 +100,9 @@ body {
     padding: 16px 28px;
     border-radius: 4px;
     transition: all 0.3s ease;
+    cursor: pointer; /* <-- Add cursor pointer here */
 }
+
 
 .btn-primary {
     background: #fff;
@@ -372,9 +374,5 @@ body {
     color: #000;
 }
 
- .hero-buttons {
-  cursor: pointer;
-  /* Keep your existing button styles here */
-}
-   
+
 
