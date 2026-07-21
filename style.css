@@ -372,5 +372,9 @@ body {
     color: #000;
 }
 
-    
+ .start-project-btn {
+  cursor: pointer;
+  /* Keep your existing button styles here */
 }
+   
+
