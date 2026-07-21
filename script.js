@@ -1,5 +1,6 @@
+
+// 1. Smooth Scrolling for Anchor Links (#services, #reviews, etc.)
 document.addEventListener("DOMContentLoaded", () => {
-    // Smooth scrolling for navigation links
     const scrollLinks = document.querySelectorAll('a[href^="#"]');
     
     scrollLinks.forEach(link => {
@@ -19,10 +20,19 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 });
 
-// Your Google Apps Script Web App URL
+// 2. WhatsApp Direct Redirect Function
+function startProjectWhatsApp() {
+    const phoneNumber = "2348029913798"; 
+    const templateMessage = "Hey MRWEBDEV! 👋 I checked out your portfolio and I'd like to start a web design project for my brand.";
+    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(templateMessage)}`;
+    
+    window.open(whatsappUrl, '_blank');
+}
+
+// 3. Google Apps Script Web App URL for Reviews
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzvXtZmtU9gTEIOeDBK8pN3sS21vNitYBtxO7Xn4PFxuSjAvKHHS4k1eEoiw-5FET5e/exec";
 
-// 1. Fetch and display reviews instantly when page loads (with Cache-Buster)
+// Fetch and display reviews on page load
 async function loadReviews() {
     const container = document.getElementById("dynamic-reviews");
     if (!container) return;
@@ -53,7 +63,7 @@ async function loadReviews() {
     }
 }
 
-// 2. Submit reviews
+// 4. Submit Reviews Event Listener
 document.getElementById("review-form")?.addEventListener("submit", async function(e) {
     e.preventDefault();
     
@@ -64,7 +74,6 @@ document.getElementById("review-form")?.addEventListener("submit", async functio
     const submittedName = nameInput.value;
     const submittedReview = contentInput.value;
     
-    // Explicitly sending the correct Sheet ID in the payload to bypass Apps Script hardcoding
     const payload = {
         sheetId: "14DtygzLcwGVk_LcTUxA9ff4ZPDoJVD5JjpMeqnjJ43s",
         name: submittedName,
@@ -90,24 +99,12 @@ document.getElementById("review-form")?.addEventListener("submit", async functio
         submitBtn.innerText = "SUBMIT REVIEW";
         submitBtn.disabled = false;
 
-        // Show the review card on screen instantly
+        // Show the new review card immediately
         const container = document.getElementById("dynamic-reviews");
         if (container) {
             if (container.innerHTML.includes("No reviews yet")) {
                 container.innerHTML = "";
             }
-            function startProjectWhatsApp() {
-  const phoneNumber = "2348029913798"; // Replace with your phone number (e.g. 2348012345678)
-  
-  // Custom template message
-  const templateMessage = "Hey MRWEBDEV! 👋 I checked out your portfolio and I'd like to start a web design project for my brand.";
-
-  // Encodes spaces and punctuation into valid URL format
-  const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(templateMessage)}`;
-
-  // Opens WhatsApp in a new tab
-  window.open(whatsappUrl, '_blank');
-}
 
             const newCard = document.createElement("div");
             newCard.className = "review-card";
@@ -125,5 +122,5 @@ document.getElementById("review-form")?.addEventListener("submit", async functio
     }
 });
 
-// Run loadReviews automatically when the window loads
+// Run loadReviews automatically when DOM is ready
 document.addEventListener("DOMContentLoaded", loadReviews);
